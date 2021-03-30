@@ -10,16 +10,14 @@ type HandlerFunc func(*Context)
 
 type RouterGroup struct {
 	prefix      string
-	middlewares []HandlerFunc // support middleware
-	parent      *RouterGroup  // support nesting
-	engine      *Engine       // all groups share a Engine instance
+	middlewares []HandlerFunc
+	engine      *Engine
 }
 
 func (group *RouterGroup) Group(prefix string) *RouterGroup {
 	engine := group.engine
 	newGroup := &RouterGroup{
 		prefix: group.prefix + prefix,
-		parent: group,
 		engine: engine,
 	}
 	engine.groups = append(engine.groups, newGroup)
